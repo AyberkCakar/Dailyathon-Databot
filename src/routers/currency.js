@@ -10,7 +10,7 @@ async function getCurrency() {
             url: 'https://api.collectapi.com/economy/allCurrency/',
             headers: {
                 "content-type": "application/json",
-                "authorization": "apikey 1nFVw18sbYa2ozyIfYAOQ6:2MMEuUnUb9saWehND143j0",
+                "authorization": process.env.API1,
             }
         });
         response.data.result.forEach(element => {
