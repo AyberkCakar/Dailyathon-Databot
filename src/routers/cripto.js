@@ -64,4 +64,4 @@ async function insertCriptoData(query) {
 
 
 const hours = (1000 * 60 * 60 * 24);
-// setInterval(intervalFunc, hours);
+// setInterval(getCripto, hours);

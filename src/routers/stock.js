@@ -3,7 +3,7 @@ const mysql = require('mysql');
 
 var data = '';
 
-async function getCripto() {
+async function getStock() {
     try {
         const response = await axios({
             method: 'get',
@@ -14,10 +14,10 @@ async function getCripto() {
             }
         });
         response.data.result.forEach(element => {
-            insertSql(element.lastpricestr, element.minstr, element.maxstr,element.time, element.code, element.text)
+            updateSql(element.lastpricestr, element.minstr, element.maxstr,element.time, element.code, element.text)
             }
         )
-        await insertCriptoData(data);
+        await updateStockData(data);
     } catch (error) {
         console.error(error);
     }
@@ -29,7 +29,7 @@ async function updateSql(lastprice, min, max, time, code, text) {
     data += sql + "; "
 }
 
-async function updateCriptoData(query) {
+async function updateStockData(query) {
     await axios.put('https://dailyathon.herokuapp.com/stock', {
         query: query
     })
@@ -41,7 +41,7 @@ async function updateCriptoData(query) {
         })
 }
 
-
+/*
 function insertSql(lastprice, min, max, time, code, text) {
     var sql = mysql.format("INSERT INTO tblStock SET LastPrice=" + mysql.escape(lastprice) + ", Min=" + mysql.escape(min) +
     ", Max=" + mysql.escape(max) + ", Time=" + mysql.escape(time) + ", Text=" + mysql.escape(text) + ", Code=" + mysql.escape(code));
@@ -49,7 +49,7 @@ function insertSql(lastprice, min, max, time, code, text) {
 }
 
 
-async function insertCriptoData(query) {
+async function insertStockData(query) {
     await axios.post('https://dailyathon.herokuapp.com/stock', {
         query:query
     })
@@ -61,8 +61,8 @@ async function insertCriptoData(query) {
         })
 }
 
+*/
 
 
 const hours = (1000 * 60 * 60 * 24);
-// setInterval(intervalFunc, hours);
-setTimeout(getCripto, 1000);
+// setInterval(getStock, hours);
