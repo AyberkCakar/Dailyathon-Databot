@@ -7,30 +7,30 @@ async function getCripto() {
     try {
         const response = await axios({
             method: 'get',
-            url: 'https://api.collectapi.com/economy/cripto',
+            url: 'https://api.collectapi.com/economy/hisseSenedi/',
             headers: {
                 "content-type": "application/json",
                 "authorization": "apikey 1nFVw18sbYa2ozyIfYAOQ6:2MMEuUnUb9saWehND143j0",
             }
         });
         response.data.result.forEach(element => {
-            updateSql(element.currency, element.changeWeekstr, element.changeDaystr,element.pricestr, element.code, element.name)
+            insertSql(element.lastpricestr, element.minstr, element.maxstr,element.time, element.code, element.text)
             }
         )
-        await updateCriptoData(data);
+        await insertCriptoData(data);
     } catch (error) {
         console.error(error);
     }
 }
 
-async function updateSql(currency, changeWeek, changeDay, price, code, name) {
-    var sql = mysql.format("UPDATE tblCripto SET Currency=" + mysql.escape(currency) + ", ChangeWeek=" + mysql.escape(changeWeek) +
-        ", ChangeDay=" + mysql.escape(changeDay) + ", Price=" + mysql.escape(price) + ", Name=" + mysql.escape(name) + " WHERE Code=" + mysql.escape(code));
+async function updateSql(lastprice, min, max, time, code, text) {
+    var sql = mysql.format("UPDATE tblStock SET LastPrice=" + mysql.escape(lastprice) + ", Min=" + mysql.escape(min) +
+        ", Max=" + mysql.escape(max) + ", Time=" + mysql.escape(time) + ", Text=" + mysql.escape(text) + " WHERE Code=" + mysql.escape(code));
     data += sql + "; "
 }
 
 async function updateCriptoData(query) {
-    await axios.put('https://dailyathon.herokuapp.com/cripto', {
+    await axios.put('https://dailyathon.herokuapp.com/stock', {
         query: query
     })
         .then(function (response) {
@@ -41,16 +41,16 @@ async function updateCriptoData(query) {
         })
 }
 
-/*
-function insertSql(currency, changeWeek, changeDay, price, code, name) {
-    var sql = mysql.format("INSERT INTO tblCripto SET Currency="+  mysql.escape(currency)+", ChangeWeek="+ mysql.escape(changeWeek)+
-    ", ChangeDay="+ mysql.escape(changeDay)+", Price="+ mysql.escape(price)+", Code="+ mysql.escape(code)+", Name="+ mysql.escape(name));
+
+function insertSql(lastprice, min, max, time, code, text) {
+    var sql = mysql.format("INSERT INTO tblStock SET LastPrice=" + mysql.escape(lastprice) + ", Min=" + mysql.escape(min) +
+    ", Max=" + mysql.escape(max) + ", Time=" + mysql.escape(time) + ", Text=" + mysql.escape(text) + ", Code=" + mysql.escape(code));
     data += sql+"; "
 }
 
 
 async function insertCriptoData(query) {
-    await axios.post('https://dailyathon.herokuapp.com/cripto', {
+    await axios.post('https://dailyathon.herokuapp.com/stock', {
         query:query
     })
         .then(function (response) {
@@ -60,8 +60,9 @@ async function insertCriptoData(query) {
             console.log(error);
         })
 }
-*/
+
 
 
 const hours = (1000 * 60 * 60 * 24);
 // setInterval(intervalFunc, hours);
+setTimeout(getCripto, 1000);
