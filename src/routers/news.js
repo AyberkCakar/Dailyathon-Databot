@@ -3,6 +3,9 @@ const mysql = require('mysql');
 require('dotenv').config()
 
 var sqlBusiness= '';
+var sqlEntertainment= '';
+var sqlHealth= '';
+var sqlBusiness= '';
 
 async function getNews() {
     try {
@@ -12,14 +15,17 @@ async function getNews() {
     }
 }
 
-async function businessNewws() {
+async function businessNews() {
     const path='http://newsapi.org/v2/top-headlines?country=tr&category=business&apiKey='+process.env.API2;
     let response = await axios.get(path)
     response.data.articles.forEach(element => {
         var sql = mysql.format("INSERT INTO tblNews SET  NewsTitle=" + mysql.escape(element.title) + ", NewsDescription=" + mysql.escape(element.description) +
-        ", NewsImage=" + mysql.escape(dist) + ", NewsCategoryID=" + mysql.escape(address));
+        ", NewsImage=" + mysql.escape(element.urlToImage) +", Content=" + mysql.escape(element.content) 
+        +", date=" + mysql.escape(element.publishedAt) + ", NewsCategoryID=" + mysql.escape(address));
         sqlBusiness += sql+"; "
     })
+
+    
 }
 
 async function entertainmentNewws() {
