@@ -99,4 +99,4 @@ function LeagueData(data) {
 }
 
 const hours = (1000 * 60 * 60 * 4);
-// setInterval(intervalFunc, hours);
+setInterval(getLeague, hours);

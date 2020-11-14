@@ -34,6 +34,7 @@ async function updateStockData(query) {
         query: query
     })
         .then(function (response) {
+            console.log('stock');
             console.log(response.status);
         })
         .catch(function (error) {
@@ -65,4 +66,4 @@ async function insertStockData(query) {
 
 
 const hours = (1000 * 60 * 60 * 24);
-// setInterval(getStock, hours);
+setInterval(getStock, hours);

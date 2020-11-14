@@ -43,6 +43,7 @@ async function insertPharmacyData(query) {
         query:query
     })
         .then(function (response) {
+            console.log('pharmacy');
             console.log(response.status);
         })
         .catch(function (error) {
@@ -53,6 +54,7 @@ async function insertPharmacyData(query) {
 async function deletePharmacyData() {
     await axios.delete('https://dailyathon.herokuapp.com/pharmacy')
         .then(function (response) {
+            console.log('pharmacy-delete');
             console.log(response.status);
         })
         .catch(function (error) {
@@ -62,4 +64,4 @@ async function deletePharmacyData() {
 
 
 const hours = (1000 * 60 * 60 * 24);
-// setInterval(getPharmacy, hours);
+setInterval(getPharmacy, hours);

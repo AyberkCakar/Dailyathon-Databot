@@ -34,6 +34,7 @@ async function updateCurrencyData(query) {
         query: query
     })
         .then(function (response) {
+            console.log('currency');
             console.log(response.status);
         })
         .catch(function (error) {
@@ -65,4 +66,4 @@ async function insertCurrencyData(query) {
 
 
 const hours = (1000 * 60 * 60 * 24);
-// setInterval(getCurrency, hours);
+setInterval(getCurrency, hours);

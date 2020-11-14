@@ -34,6 +34,7 @@ async function updateCriptoData(query) {
         query: query
     })
         .then(function (response) {
+            console.log('Cripto');
             console.log(response.status);
         })
         .catch(function (error) {
@@ -64,4 +65,4 @@ async function insertCriptoData(query) {
 
 
 const hours = (1000 * 60 * 60 * 24);
-// setInterval(getCripto, hours);
+setInterval(getCripto, hours);

@@ -64,7 +64,7 @@ async function updateLeagueData(SequenceNo,TeamName,TeamLogoUrl,O,G,M,A,Y,AV,P,L
 
 function LeagueData(data) {
     request(data.LeagueUrl, function (error, response, html) {
-        if(data.SportID == 2)
+        if(data.SportID == 11)
         {
             if (! error && response.statusCode == 200 ) {
                 const $ = cheerio.load(html);
@@ -97,4 +97,4 @@ function LeagueData(data) {
 
 
 const hours = (1000 * 60 * 60 * 4);
-// setInterval(intervalFunc, hours);
+setInterval(getLeague, hours);
