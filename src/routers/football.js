@@ -1,6 +1,9 @@
 const  request = require('request');
 const cheerio = require('cheerio');
 const axios = require('axios');
+const mysql = require('mysql');
+
+var sqlQuery = '';
 
 async function getLeague() {
     try {
@@ -16,20 +19,8 @@ async function getLeague() {
 
 /*
 async function setLeagueData(SequenceNo,TeamName,TeamLogoUrl,O,G,B,M,A,Y,AV,P,LeagueID) {
-    await axios.post('https://dailyathon.herokuapp.com/league-standings', {
-        SequenceNo: SequenceNo,
-        TeamName: TeamName,
-        TeamLogoUrl: TeamLogoUrl,
-        O: O,
-        G: G,
-        B: B,
-        M: M,
-        A: A,
-        Y: Y,
-        AV: AV,
-        P: P,
-        LeagueID: LeagueID,
-        LeagueTableName: 'tblFootball'
+    await axios.POST('https://dailyathon.herokuapp.com/league-standings', {
+        query:query
     })
         .then(function (response) {
             console.log(response.status);
@@ -42,19 +33,7 @@ async function setLeagueData(SequenceNo,TeamName,TeamLogoUrl,O,G,B,M,A,Y,AV,P,Le
 
 async function updateLeagueData(SequenceNo,TeamName,TeamLogoUrl,O,G,B,M,A,Y,AV,P,LeagueID) {
     await axios.put('https://dailyathon.herokuapp.com/league-standings', {
-            SequenceNo: SequenceNo,
-            TeamName: TeamName,
-            TeamLogoUrl: TeamLogoUrl,
-            O: O,
-            G: G,
-            B: B,
-            M: M,
-            A: A,
-            Y: Y,
-            AV: AV,
-            P: P,
-            LeagueID: LeagueID,
-            LeagueTableName: 'tblFootball'
+        query:sqlQuery
     })
         .then(function (response) {
             console.log(response.status);
@@ -63,6 +42,23 @@ async function updateLeagueData(SequenceNo,TeamName,TeamLogoUrl,O,G,B,M,A,Y,AV,P
             console.log(error);
         });
 }
+
+function insertSql(SequenceNo,TeamName,TeamLogoUrl,O,G,B,M,A,Y,AV,P,LeagueID) {
+    var sql = mysql.format("INSERT INTO tblFootball SET  SequenceNo=" + mysql.escape(SequenceNo) + ", TeamName=" + mysql.escape(TeamName) +
+    ", TeamLogoUrl=" + mysql.escape(TeamLogoUrl) +", O=" + mysql.escape(O) 
+    +", G=" + mysql.escape(G) + ", B=" + mysql.escape(B)+", M=" + mysql.escape(M) + ", A=" + mysql.escape(A)+", Y=" + mysql.escape(Y) + ", AV=" + mysql.escape(AV)
+    +", P=" + mysql.escape(P) + ", LeagueID=" + mysql.escape(LeagueID));
+    sqlQuery += sql+"; "
+}
+
+function updateSql(SequenceNo,TeamName,TeamLogoUrl,O,G,B,M,A,Y,AV,P,LeagueID) {
+    var sql = mysql.format("UPDATE tblFootball SET  SequenceNo=" + mysql.escape(SequenceNo) + ", TeamName=" + mysql.escape(TeamName) +
+    ", TeamLogoUrl=" + mysql.escape(TeamLogoUrl) +", O=" + mysql.escape(O) 
+    +", G=" + mysql.escape(G) + ", B=" + mysql.escape(B)+", M=" + mysql.escape(M) + ", A=" + mysql.escape(A)+", Y=" + mysql.escape(Y) + ", AV=" + mysql.escape(AV)
+    +", P=" + mysql.escape(P) + "WHERE LeagueID=" + mysql.escape(LeagueID));
+    sqlQuery += sql+"; "
+}
+
 
 function LeagueData(data) {
     request(data.LeagueUrl, function (error, response, html) {
@@ -82,8 +78,9 @@ function LeagueData(data) {
                     const Y =$ (this).find('tr.p0c-competition-tables__row.p0c-competition-tables__row--rank-status>td').eq(9).text();
                     const AV =$ (this).find('tr.p0c-competition-tables__row.p0c-competition-tables__row--rank-status>td').eq(10).text();
                     const P =$ (this).find('tr.p0c-competition-tables__row.p0c-competition-tables__row--rank-status>td').eq(11).text();
-                    updateLeagueData(SequenceNo,TeamLogoUrl,TeamName,O,G,B,M,A,Y,AV,P,data.LeagueID)
+                    updateSql(SequenceNo,TeamLogoUrl,TeamName,O,G,B,M,A,Y,AV,P,data.LeagueID)
                 });
+                updateLeagueData();
             }
             else
             {
