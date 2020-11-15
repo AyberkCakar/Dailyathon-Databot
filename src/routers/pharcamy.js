@@ -1,5 +1,6 @@
 const axios = require('axios');
 const mysql = require('mysql');
+const log = require('../service/logService')
 require('dotenv').config()
 
 var data = '';
@@ -8,13 +9,15 @@ city.push("izmir");
 city.push("Istanbul");
 city.push("Ankara");
 
+var url = 'https://api.collectapi.com/health/dutyPharmacy?ilce=&il=';
+
 async function getPharmacy() {
     try {
         await deletePharmacyData();
         city.forEach(async(value)=> {
             const response = await axios({
                 method: 'get',
-                url: "https://api.collectapi.com/health/dutyPharmacy?ilce=&il="+value,
+                url: url+value,
                 headers: {
                     "content-type": "application/json",
                     "authorization": process.env.API2,
@@ -28,7 +31,7 @@ async function getPharmacy() {
             data=' ';
         })
     } catch (error) {
-        console.error(error);
+        log.createLog('Pharmacy Bot',' ', 'getPharmacy Error.',error.data.message);
     }
 }
 
@@ -42,24 +45,22 @@ async function insertPharmacyData(query) {
     await axios.post('https://dailyathon.herokuapp.com/pharmacy', {
         query:query
     })
-        .then(function (response) {
-            console.log('pharmacy');
-            console.log(response.status);
-        })
-        .catch(function (error) {
-            console.log(error);
-        })
+    .then(function (response) {
+        log.createLog('Pharmacy Bot',url, ' Pharmacy information added successfully.',response.data.message);
+    })
+    .catch(function (error) {
+        log.createLog('Pharmacy Bot',url, ' Pharmacy information added failed.',error.data.message);
+    })
 }
 
 async function deletePharmacyData() {
     await axios.delete('https://dailyathon.herokuapp.com/pharmacy')
-        .then(function (response) {
-            console.log('pharmacy-delete');
-            console.log(response.status);
-        })
-        .catch(function (error) {
-            console.log(error);
-        })
+    .then(function (response) {
+        log.createLog('Pharmacy Bot',' ', ' Pharmacy information deleted successfully.',response.data.message);
+    })
+    .catch(function (error) {
+        log.createLog('Pharmacy Bot',' ', ' Pharmacy information deleted failed.',error.data.message);
+    })
 }
 
 
