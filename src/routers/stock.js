@@ -1,13 +1,15 @@
 const axios = require('axios');
 const mysql = require('mysql');
+const log = require('../service/logService')
 
 var data = '';
+var url = 'https://api.collectapi.com/economy/hisseSenedi';
 
 async function getStock() {
     try {
         const response = await axios({
             method: 'get',
-            url: 'https://api.collectapi.com/economy/hisseSenedi/',
+            url: url,
             headers: {
                 "content-type": "application/json",
                 "authorization": process.env.API1,
@@ -19,7 +21,7 @@ async function getStock() {
         )
         await updateStockData(data);
     } catch (error) {
-        console.error(error);
+        log.createLog('Stock Bot',' ', 'getStock Error.',error.data.message);
     }
 }
 
@@ -33,13 +35,12 @@ async function updateStockData(query) {
     await axios.put('https://dailyathon.herokuapp.com/stock', {
         query: query
     })
-        .then(function (response) {
-            console.log('stock');
-            console.log(response.status);
-        })
-        .catch(function (error) {
-            console.log(error);
-        })
+    .then(function (response) {
+        log.createLog('Stock Bot',url, ' Stock information updated successfully.',response.data.message);
+    })
+    .catch(function (error) {
+        log.createLog('Stock Bot',url, ' Stock information updated failed.',error.data.message);
+    });
 }
 
 /*
@@ -54,14 +55,13 @@ async function insertStockData(query) {
     await axios.post('https://dailyathon.herokuapp.com/stock', {
         query:query
     })
-        .then(function (response) {
-            console.log(response.status);
-        })
-        .catch(function (error) {
-            console.log(error);
-        })
+    .then(function (response) {
+        log.createLog('Stock Bot',url, ' Stock information added successfully.',response.data.message);
+    })
+    .catch(function (error) {
+        log.createLog('Stock Bot',url, ' Stock information added failed.',error.data.message);
+    })
 }
-
 */
 
 
