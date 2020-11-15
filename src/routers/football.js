@@ -18,7 +18,7 @@ async function getLeague() {
     }
 }
 
-
+/*
 async function setLeagueData(legueUrl,leagueName) {
     await axios.post('https://dailyathon.herokuapp.com/league-standings', {
         query:sqlQuery
@@ -40,7 +40,7 @@ function insertSql(SequenceNo,TeamName,TeamLogoUrl,_O,_G,_B,_M,_A,_Y,_AV,_P,Leag
     +", P=" + mysql.escape(_P) + ", LeagueID=" + mysql.escape(LeagueID));
     sqlQuery += sql+"; "
 }
-
+*/
 
 async function updateLeagueData(legueUrl,leagueName) {
     await axios.put('https://dailyathon.herokuapp.com/league-standings', {
@@ -103,5 +103,4 @@ function LeagueData(data) {
 }
 
 const hours = (1000 * 60 * 60 * 4);
-//setInterval(getLeague, hours);
-setTimeout(getLeague,1000)
+setInterval(getLeague, hours);
