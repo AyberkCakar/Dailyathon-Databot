@@ -14,7 +14,7 @@ async function getLeague() {
             }
         )
     } catch (error) {
-        console.error(error);
+        log.createLog('Football Bot','','getLeague Error',error.data.message);
     }
 }
 
@@ -24,12 +24,10 @@ async function setLeagueData(legueUrl,leagueName) {
         query:sqlQuery
     })
         .then(function (response) {
-            log.createLog('Football Bot',legueUrl,leagueName+ ' League information added successfully.',' ');
-            console.log(response.status);
+            log.createLog('Football Bot',legueUrl,leagueName+ ' information added successfully.',response.data.message);
         })
         .catch(function (error) {
-            log.createLog('Football Bot',legueUrl,leagueName+ ' League information added failed.',error.message);
-            console.log(error);
+            log.createLog('Football Bot',legueUrl,leagueName+ ' information added failed.',error.data.message);
         });
 }
 
@@ -47,12 +45,10 @@ async function updateLeagueData(legueUrl,leagueName) {
         query:sqlQuery
     })
     .then(function (response) {
-        log.createLog('Football Bot',legueUrl,leagueName+ ' League information added successfully.',' ');
-        console.log(response.status);
+        log.createLog('Football Bot',legueUrl,leagueName+ ' League information updated successfully.',response.data.message);
     })
     .catch(function (error) {
-        log.createLog('Football Bot',legueUrl,leagueName+ ' League information added failed.',error.message);
-        console.log(error);
+        log.createLog('Football Bot',legueUrl,leagueName+ ' League information updated failed.',error.data.message);
     });
 }
 
