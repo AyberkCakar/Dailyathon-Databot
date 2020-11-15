@@ -1,13 +1,15 @@
 const axios = require('axios');
 const mysql = require('mysql');
+const log = require('../service/logService')
 
 var data = '';
+var url = 'https://api.collectapi.com/economy/allCurrency';
 
 async function getCurrency() {
     try {
         const response = await axios({
             method: 'get',
-            url: 'https://api.collectapi.com/economy/allCurrency/',
+            url: url,
             headers: {
                 "content-type": "application/json",
                 "authorization": process.env.API1,
@@ -19,7 +21,7 @@ async function getCurrency() {
         )
         await updateCurrencyData(data);
     } catch (error) {
-        console.error(error);
+        log.createLog('Currency Bot',' ', 'getCurrency Error.',error.data.message);
     }
 }
 
@@ -33,13 +35,12 @@ async function updateCurrencyData(query) {
     await axios.put('https://dailyathon.herokuapp.com/currency', {
         query: query
     })
-        .then(function (response) {
-            console.log('currency');
-            console.log(response.status);
-        })
-        .catch(function (error) {
-            console.log(error);
-        })
+    .then(function (response) {
+        log.createLog('Currency Bot',url, ' Currency information updated successfully.',response.data.message);
+    })
+    .catch(function (error) {
+        log.createLog('Currency Bot',url, ' Currency information updated failed.',error.data.message);
+    });
 }
 
 /*
@@ -54,15 +55,14 @@ async function insertCurrencyData(query) {
     await axios.post('https://dailyathon.herokuapp.com/currency', {
         query:query
     })
-        .then(function (response) {
-            console.log(response.status);
-        })
-        .catch(function (error) {
-            console.log(error);
-        })
+    .then(function (response) {
+        log.createLog('Currency Bot',url, ' Currency information added successfully.',response.data.message);
+    })
+    .catch(function (error) {
+        log.createLog('Currency Bot',url, ' Currency information added failed.',error.data.message);
+    })
 }
 */
-
 
 
 const hours = (1000 * 60 * 60 * 24);
