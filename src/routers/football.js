@@ -2,6 +2,7 @@ const  request = require('request');
 const cheerio = require('cheerio');
 const axios = require('axios');
 const mysql = require('mysql');
+const log = require('../service/logService')
 
 var sqlQuery = '';
 
@@ -18,14 +19,16 @@ async function getLeague() {
 }
 
 
-async function setLeagueData(SequenceNo,TeamName,TeamLogoUrl,O,G,B,M,A,Y,AV,P,LeagueID) {
+async function setLeagueData(legueUrl,leagueName) {
     await axios.post('https://dailyathon.herokuapp.com/league-standings', {
         query:sqlQuery
     })
         .then(function (response) {
+            log.createLog('Football Bot',legueUrl,leagueName+ ' League information added successfully.',' ');
             console.log(response.status);
         })
         .catch(function (error) {
+            log.createLog('Football Bot',legueUrl,leagueName+ ' League information added failed.',error.message);
             console.log(error);
         });
 }
@@ -39,16 +42,18 @@ function insertSql(SequenceNo,TeamName,TeamLogoUrl,_O,_G,_B,_M,_A,_Y,_AV,_P,Leag
 }
 
 
-async function updateLeagueData(SequenceNo,TeamName,TeamLogoUrl,O,G,B,M,A,Y,AV,P,LeagueID) {
+async function updateLeagueData(legueUrl,leagueName) {
     await axios.put('https://dailyathon.herokuapp.com/league-standings', {
         query:sqlQuery
     })
-        .then(function (response) {
-            console.log(response.status);
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
+    .then(function (response) {
+        log.createLog('Football Bot',legueUrl,leagueName+ ' League information added successfully.',' ');
+        console.log(response.status);
+    })
+    .catch(function (error) {
+        log.createLog('Football Bot',legueUrl,leagueName+ ' League information added failed.',error.message);
+        console.log(error);
+    });
 }
 
 
@@ -81,12 +86,12 @@ function LeagueData(data) {
                     const P =$ (this).find('tr.p0c-competition-tables__row.p0c-competition-tables__row--rank-status>td').eq(11).text();
                     updateSql(SequenceNo,TeamLogoUrl,TeamName,O,G,B,M,A,Y,AV,P,data.LeagueID)
                 });
-                updateLeagueData();
+                updateLeagueData(data.LeagueUrl,data.LeagueName);
                 sqlQuery='';
             }
             else
             {
-                console.log("League url error")
+                log.createLog('Football Bot',legueUrl,leagueName+ ' League url error','League url error');
             }
         }
         else
@@ -98,4 +103,5 @@ function LeagueData(data) {
 }
 
 const hours = (1000 * 60 * 60 * 4);
-setInterval(getLeague, hours);
+//setInterval(getLeague, hours);
+setTimeout(getLeague,1000)
