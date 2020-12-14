@@ -31,7 +31,7 @@ async function updateSql(currency, changeWeek, changeDay, price, code, name) {
 }
 
 async function updateCriptoData(query) {
-    await axios.put('https://dailyathon.herokuapp.com/cripto', {
+    await axios.put('https://serve-dailyathon.ayberkcakar.xyz/cripto', {
         query: query
     })
     .then(function (response) {
@@ -50,7 +50,7 @@ function insertSql(currency, changeWeek, changeDay, price, code, name) {
 }
 
 async function insertCriptoData(query) {
-    await axios.post('https://dailyathon.herokuapp.com/cripto', {
+    await axios.post('https://serve-dailyathon.ayberkcakar.xyz/cripto', {
         query:query
     })
     .then(function (response) {

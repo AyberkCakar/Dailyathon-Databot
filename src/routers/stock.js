@@ -32,7 +32,7 @@ async function updateSql(lastprice, min, max, time, code, text) {
 }
 
 async function updateStockData(query) {
-    await axios.put('https://dailyathon.herokuapp.com/stock', {
+    await axios.put('https://serve-dailyathon.ayberkcakar.xyz/stock', {
         query: query
     })
     .then(function (response) {
@@ -52,7 +52,7 @@ function insertSql(lastprice, min, max, time, code, text) {
 
 
 async function insertStockData(query) {
-    await axios.post('https://dailyathon.herokuapp.com/stock', {
+    await axios.post('https://serve-dailyathon.ayberkcakar.xyz/stock', {
         query:query
     })
     .then(function (response) {

@@ -42,7 +42,7 @@ function insertSql(name, city,dist,address,phone,loc) {
 }
 
 async function insertPharmacyData(query) {
-    await axios.post('https://dailyathon.herokuapp.com/pharmacy', {
+    await axios.post('https://serve-dailyathon.ayberkcakar.xyz/pharmacy', {
         query:query
     })
     .then(function (response) {
@@ -54,7 +54,7 @@ async function insertPharmacyData(query) {
 }
 
 async function deletePharmacyData() {
-    await axios.delete('https://dailyathon.herokuapp.com/pharmacy')
+    await axios.delete('https://serve-dailyathon.ayberkcakar.xyz/pharmacy')
     .then(function (response) {
         log.createLog('Pharmacy Bot',' ', ' Pharmacy information deleted successfully.',response.data.message);
     })

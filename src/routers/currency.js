@@ -32,7 +32,7 @@ async function updateSql(name, code, buying, selling, rate, datetime) {
 }
 
 async function updateCurrencyData(query) {
-    await axios.put('https://dailyathon.herokuapp.com/currency', {
+    await axios.put('https://serve-dailyathon.ayberkcakar.xyz/currency', {
         query: query
     })
     .then(function (response) {
@@ -52,7 +52,7 @@ function insertSql(name, code, buying, selling, rate, datetime) {
 
 
 async function insertCurrencyData(query) {
-    await axios.post('https://dailyathon.herokuapp.com/currency', {
+    await axios.post('https://serve-dailyathon.ayberkcakar.xyz/currency', {
         query:query
     })
     .then(function (response) {

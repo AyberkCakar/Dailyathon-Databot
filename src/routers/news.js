@@ -132,7 +132,7 @@ function insertSql(title, description,urlToImage,content,publishedAt,tagID) {
 }
 
 async function insertNewsData(query) {
-    await axios.post('https://dailyathon.herokuapp.com/news', {
+    await axios.post('https://serve-dailyathon.ayberkcakar.xyz/news', {
         query:query
     })
     .then(function (response) {

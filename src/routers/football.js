@@ -8,7 +8,7 @@ var sqlQuery = '';
 
 async function getLeague() {
     try {
-        const response = await axios.get('https://dailyathon.herokuapp.com/league');
+        const response = await axios.get('https://serve-dailyathon.ayberkcakar.xyz/league');
         response.data.forEach(element => {
                 LeagueData(element);
             }
@@ -20,7 +20,7 @@ async function getLeague() {
 
 /*
 async function setLeagueData(legueUrl,leagueName) {
-    await axios.post('https://dailyathon.herokuapp.com/league-standings', {
+    await axios.post('https://serve-dailyathon.ayberkcakar.xyz/league-standings', {
         query:sqlQuery
     })
         .then(function (response) {
@@ -41,7 +41,7 @@ function insertSql(SequenceNo,TeamName,TeamLogoUrl,_O,_G,_B,_M,_A,_Y,_AV,_P,Leag
 */
 
 async function updateLeagueData(legueUrl,leagueName) {
-    await axios.put('https://dailyathon.herokuapp.com/league-standings', {
+    await axios.put('https://serve-dailyathon.ayberkcakar.xyz/league-standings', {
         query:sqlQuery
     })
     .then(function (response) {
